@@ -40,27 +40,24 @@ tracking accuracy and efficiency.
 Performance
 ----------------------
 
-|            Benchmarks              |       OTETrack-256       |  
+|            Benchmarks              |       FWTrack-288     |  
 |:-------------------------------:|:-----------------------:|
-| GOT-10k (AO / SR 0.5 / SR 0.75) |   76.4	/ 85.4	/ 75.1  |  
-|    LaSOT (AUC / Norm P / P)     |   73.9	/ 83.5	/ 82.3
-| TrackingNet (AUC / Norm P / P)  |   84.8 / 89.3 / 83.9    |  
-|  LaSOT_ext (AUC / Norm P / P)   |   51.9 / 62.3 / 59.2    |     
-|          UAV123 (AUC)           |          70.8           |     
+| GOT-10k (AO / SR 0.5 / SR 0.75) |   76.1	/ 85.5	/ 73.3  |  
+|    LaSOT (AUC / Norm P / P)     |   71.7	/ 81.6	/ 78.9 
+|  LaSOT_ext (AUC / Norm P / P)   |   52.0 / 62.5 / 58.9   |     
+|          UAV123 (AUC)           |          72.6         |     
+|          NFS (AUC)           |          68.4        | 
+|          TNL2K (AUC)           |          59.8        | 
 
-Inference Speed
----------------
-
-Our baseline model (backbone: Overlapped ViT-B, resolution: 256x256) can run at **163 fps** (frames per second) on a single NVIDIA GeForce RTX 4090.
 
 ## Install the environment
 
 We use the Anaconda (**CUDA 11.3**) to build the environment (**Linux**).
 Before you run our project, we suggest that you install and activate the environment by running the commands below. 
 ```
-conda env create -f OTETrack_env_cuda113.yaml
+conda env create -f FWTrack_env_cuda113.yaml
 
-conda activate otetrack
+conda activate FWTrack
 ```
 Partial paramount site-packages requirements are listed below:
 - `python == 3.9.7` 
@@ -75,12 +72,15 @@ Partial paramount site-packages requirements are listed below:
 - `tqdm == 4.63.0`
 - `yaml == 0.2.5`
 - `opencv-python == 4.5.5.64`
+- `pywavelets == 1.3.0`
 ## Data
 GOT-10k dataset can be acquired at: [GOT-10k](http://got-10k.aitestunion.com/downloads).
 LaSOT dataset can be acquired at: [LaSOT](https://onedrive.live.com/?authkey=%21AMZfYsa%2DWN%5Fd6lg&id=83EEFE32EECC7F4B%2133324&cid=83EEFE32EECC7F4B&parId=root&parQt=sharedby&o=OneUp).
 TrackingNet dataset can be acquired at: [TrackingNet](https://drive.google.com/drive/u/0/folders/1gJOR-r-jPFFFCzKKlMOW80WFtuaMiaf6).
 LaSOTEXT dataset can be acquired at: [LaSOTEXT](https://onedrive.live.com/?authkey=%21AL6OYePAAteZeuw&id=83EEFE32EECC7F4B%2133323&cid=83EEFE32EECC7F4B&parId=root&parQt=sharedby&o=OneUp).
 UAV123 dataset can be acquired at: [UAV123](https://drive.google.com/file/d/0B6sQMCU1i4NbNGxWQzRVak5yLWs/view?resourcekey=0-IjwQcWEzP2x3ec8kXtLBpA).
+NFS dataset can be acquired at: [NFS](https://ci2cv.net/nfs/index.html).
+TNL2K dataset can be acquired at: [TNL2K](https://sites.google.com/view/langtrackbenchmark).
 ## Data Preparation
 
 After you acquire and unzip the raw data of all datasets, please separately place them in corresponding folders, e.g., putting the train split of LaSOT under `${LASOT_TRAIN_PATH}`.
