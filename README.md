@@ -16,14 +16,14 @@ Model Architecture
 Abstract
 ------------------
 
-Visual tracking plays a vital role in modern intelligent transportation systems (ITSs) to sense traffic environments
+Visual tracking plays a vital role in modern intelligent transportation systems (ITSs) to sense traffic environments
 and trace targets, wherein unmanned aerial vehicles (UAVs)
-are commonly used for data collection. Currently, many existing trackers leverage spatial-temporal features to increase
-their tracking capabilities. However, the utilization of spatialtemporal features normally involves considerable extra network
+are commonly used for data collection. Currently, many existing trackers leverage spatial-temporal features to increase
+their tracking capabilities. However, the utilization of spatial-temporal features normally involves considerable extra network
 modules and time-consuming recursive deduction processes,
 making these trackers impractical in ITSs. To address the
 issue of low efficiency, we propose FWTrack, a novel tracker
-that constructs hierarchical spatial-temporal features via threedimensional wavelets and thus achieves efficient spatial-temporal
+that constructs hierarchical spatial-temporal features via three-dimensional wavelets and thus achieves efficient spatial-temporal
 visual tracking. FWTrack employs the spatial maximal-overlap
 discrete wavelet transform (MODWT) smooths to reinforce its
 feature extraction ability in an approximately parameter-free
