@@ -1,8 +1,8 @@
-# OTETrack
+# FWTrack
 
-**Overlapped Trajectory-Enhanced Visual Tracking**
+**Hierarchical Spatial-Temporal UAV Tracking with Three-Dimensional Wavelets**
 
-This work has been accepted by IEEE TCSVT （https://ieeexplore.ieee.org/document/10630872）
+This work is submitted to IEEE T-ITS.
 
 GitHub maintainer: [Li Shen](https://github.com/OrigamiSL)
 
@@ -10,13 +10,32 @@ E-mail: shenli@buaa.edu.cn
 
 Model Architecture
 ---------
-![](./figure/OTETrack_overview.jpg)
+![](./figure/FWTrack_overview.jpg)
 
 
 Abstract
 ------------------
 
-This work proposes **OTETrack**, a visual tracker with **Overlapped** feature extraction and interpretable **Trajectory-related Enhancement**. Instead of directly taking existing backbone, e.g., ViT, as the feature extractor, we ameliorate the non-parametric parts of ViT to render it tailored for tracking, thus proposing Overlapped ViT which owns an appropriate trade-off between capability and efficiency. The patches in Overlapped ViT are refined to be overlapped with each other, whereas their interactions are devised to be partial but sufficiently global. Moreover, different from other trajectory-related trackers, we incorporate Hanning window, into the trajectory prediction. Instead of utilizing Hanning window mechanically, we revamp it to render it acclimatizing to the non-stationary tracking circumstances with quick motion and time-varying target status, where the conventional method fails to handle. OTETrack achieves state-of-the-art performances on seven benchmarks compared with thirteen existing cutting-edge baselines.
+Visual tracking plays a vital role in modern intelligent transportation systems (ITSs) to sense traffic environments
+and trace targets, wherein unmanned aerial vehicles (UAVs)
+are commonly used for data collection. Currently, many existing trackers leverage spatial-temporal features to increase
+their tracking capabilities. However, the utilization of spatialtemporal features normally involves considerable extra network
+modules and time-consuming recursive deduction processes,
+making these trackers impractical in ITSs. To address the
+issue of low efficiency, we propose FWTrack, a novel tracker
+that constructs hierarchical spatial-temporal features via threedimensional wavelets and thus achieves efficient spatial-temporal
+visual tracking. FWTrack employs the spatial maximal-overlap
+discrete wavelet transform (MODWT) smooths to reinforce its
+feature extraction ability in an approximately parameter-free
+manner and applies the wavelet coefficients of the temporal
+MODWT to adaptively separate static backgrounds from the
+attention modules of FWTrack, thereby speeding up the model.
+Moreover, the window-wise attention technique, which prevails
+in many computer vision tasks but is rarely applied in visual
+tracking, is adopted and enhanced in FWTrack to further
+increase its efficiency. Extensive experiments conducted on seven
+benchmarks demonstrate that FWTrack achieves state-of-the-art
+tracking accuracy and efficiency.
 
 Performance
 ----------------------
