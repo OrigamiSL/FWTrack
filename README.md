@@ -83,7 +83,7 @@ NFS dataset can be acquired at: [NFS](https://ci2cv.net/nfs/index.html).
 TNL2K dataset can be acquired at: [TNL2K](https://sites.google.com/view/langtrackbenchmark).
 ## Data Preparation
 
-After you acquire and unzip the raw data of all datasets, please separately place them in corresponding folders, e.g., putting the train split of LaSOT under `${LASOT_TRAIN_PATH}`.
+After you acquire and unzip the raw data of all datasets, please separately place them in corresponding folders, e.g., putting the train split of LaSOT under `${LASOT_TRAIN_PATH}`. Note that if you obtain the 120FPS version of the NFS dataset, you can run the `./lib/test/evaluation/process_nfs.py` to proprocess the raw data (the file tree is listed below), then the 30FPS version of the NFS dataset is generated for evaluation.
 
 The file tree shall look like this:
 ```
@@ -121,6 +121,12 @@ The file tree shall look like this:
         |-- cosplay
         ...
     -- ${UAV_PATH}
+        |-- anno
+        |-- data_seq
+    -- ${NFS_PATH}
+        |-- airboard_1
+        |-- data_seq
+    -- ${TNL2K_PATH}
         |-- anno
         |-- data_seq
 ```
