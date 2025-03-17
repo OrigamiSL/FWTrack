@@ -197,16 +197,16 @@ The file tree shall look like this:
 
 ## Weight source (FWTrack_288_full):
 
-You can download the model weights from [Google Drive](https://drive.google.com/file/d/1-9CceF4HwsudLi9pt5ylDEhYtrgGDhsz/view?usp=sharing).
+You can download the model weights from [MEGA](https://mega.nz/file/iMIFXBgA#rAIxOK5VOTV2n_hs9IVfrCRJRM51TDMUrRCas7HJxBM).
 
 Put the model weight you download in `./test_checkpoint.` The file tree shall look like this:
 ```
    ${PROJECT_ROOT}
     |-- test_checkpoint
-    |   |-- OTETrack_all.pth.tar
+    |   |-- FWTrack_best.pth.tar
 ```
 ## Raw results
-You can download the raw results in `$PROJECT_ROOT$/raw_result.zip`. After you unzip the zipfile, the file tree shall look like this:
+You can download the raw results in `$PROJECT_ROOT$/raw_result`. The file tree shall look like this:
 ```
    ${PROJECT_ROOT}
     |-- raw_result
