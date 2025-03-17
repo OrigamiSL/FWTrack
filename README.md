@@ -195,39 +195,26 @@ The file tree shall look like this:
 ```
 
 
-## Create two folders to store weights
-You should create two folders to store the weights for training or testing. We supply the command below to complete it:
-```
-python mkdirs.py
-```
-The created folders are put under the project path, which shall look like this:
-```
-   ${PROJECT_ROOT}
-    |-- pretrained_models
-    |-- test_checkpoint
-```
+## Weight source (FWTrack_288_full):
 
-## Weight sources (OTETrack_256_full and OTETrack_256_got):
+You can download the model weights from [Google Drive](https://drive.google.com/file/d/1-9CceF4HwsudLi9pt5ylDEhYtrgGDhsz/view?usp=sharing).
 
-You can download the model weights from [Google Drive](https://drive.google.com/file/d/1-9CceF4HwsudLi9pt5ylDEhYtrgGDhsz/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1lJz4RlgCE8XW7lV3sXbcBw?pwd=25ur) (extracted code: 25ur).
-
-Put the model weights you download in `./test_checkpoint.` The file tree shall look like this:
+Put the model weight you download in `./test_checkpoint.` The file tree shall look like this:
 ```
    ${PROJECT_ROOT}
     |-- test_checkpoint
     |   |-- OTETrack_all.pth.tar
-    |   |-- OTETrack_got.pth.tar
 ```
 ## Raw results
 You can download the raw results in `$PROJECT_ROOT$/raw_result.zip`. After you unzip the zipfile, the file tree shall look like this:
 ```
    ${PROJECT_ROOT}
     |-- raw_result
-    |   |-- got10k_submit.zip
     |   |-- lasot.zip
     |   |-- lasotext.zip
-    |   |-- trackingnet_submit.zip
     |   |-- uav.zip
+    |   |-- nfs.zip
+    |   |-- tnl2k.zip
 ```
 
 ## Download the pre-trained weight
@@ -237,67 +224,52 @@ Download pre-trained [MAE ViT-Base weight](https://dl.fbaipublicfiles.com/mae/pr
 
 For full dataset training (GOT10K, LaSOT, TrackingNet, COCO)
 ```
-python tracking/train.py --script otetrack --config otetrack_256_full --save_dir ./output --mode single --nproc_per_node 4 --use_wandb 0
+python tracking/train.py --script fwtrack --config fwtrack_256_full --save_dir ./output --mode single --nproc_per_node 4 --use_wandb 0
+
 ```
 
 For GOT10K training (GOT10K)
 ```
-python tracking/train.py --script otetrack --config otetrack_256_got --save_dir ./output --mode single --nproc_per_node 4 --use_wandb 0
+python tracking/train.py --script fwtrack --config fwtrack_256_got --save_dir ./output --mode single --nproc_per_node 4 --use_wandb 0
+
 ```
 
 ## Test and evaluate on benchmarks
 
-For convenience, you can run the command below to test and evaluate all benchmarks. Notice that GOT10K is evaluated on [GOT10K](http://got-10k.aitestunion.com/) and TrackingNet is evaluated on [TrackingNet](https://eval.ai/web/challenges/challenge-page/1805/overview).
-
-- Test all benchmarks
-
-```
-python lib/test/analysis/test_all.py
-
-```
-After you finish the process above, the raw result files for all the benchmarks will be saved under `$PROJECT_ROOT$/all_test_result` and the results will be recorded in `$PROJECT_ROOT$/all_test_result.txt`. The file tree shall look like this:
-
-```
-   ${PROJECT_ROOT}
-    |-- all_test_result
-    |   |-- got10k_test
-    |   |-- lasot
-    |   ...
-    |-- all_test_result.txt
-```
-
-You can also test and evaluate each benchmark respectively by running the commands below:
+You can test and evaluate each benchmark respectively by running the commands below (Notice that GOT10K is evaluated on [GOT10K](http://got-10k.aitestunion.com/) and TrackingNet is evaluated on [TrackingNet](https://eval.ai/web/challenges/challenge-page/1805/overview)). You can find all the commands in `./script/train_test.sh`.
 
 - GOT10K-test
 ```
-python tracking/test.py otetrack otetrack_256_got --dataset got10k_test --test_checkpoint ./test_checkpoint/OTETrack_got.pth.tar --threads 0 --num_gpus 1
-
-python lib/test/utils/transform_got10k.py --tracker_name otetrack --cfg_name otetrack_256_got
+python tracking/test.py fwtrack fwtrack_256_got --dataset got10k_test --test_checkpoint 'THE PATH OF YOUR TRAINED CHECKPOINT' --threads 0 --num_gpus 1
+python lib/test/utils/transform_got10k.py --tracker_name fwtrack --cfg_name fwtrack_256_got
 ```
 - LaSOT
 ```
-python tracking/test.py otetrack otetrack_256_full --dataset lasot --test_checkpoint ./test_checkpoint/OTETrack_all.pth.tar --threads 0 --num_gpus 1
-
-python tracking/analysis_otetrack.py otetrack otetrack_256_full --dataset lasot 
+python tracking/test.py fwtrack fwtrack_256_full --dataset lasot --test_checkpoint ./test_checkpoint/FWTrack_best.pth.tar --threads 0 --num_gpus 1
 ```
 - TrackingNet
 ```
-python tracking/test.py otetrack otetrack_256_full --dataset trackingnet --test_checkpoint ./test_checkpoint/OTETrack_all.pth.tar --threads 0 --num_gpus 1
-
-python lib/test/utils/transform_trackingnet.py --tracker_name otetrack --cfg_name otetrack_256_full
+python tracking/test.py fwtrack fwtrack_256_full --dataset trackingnet --test_checkpoint ./test_checkpoint/FWTrack_best.pth.tar --threads 0 --num_gpus 1
+python lib/test/utils/transform_trackingnet.py --tracker_name fwtrack --cfg_name fwtrack_256_full
 ```
 - LaSOText
 ```
-python tracking/test.py otetrack otetrack_256_full --dataset lasot_extension_subset --test_checkpoint ./test_checkpoint/OTETrack_all.pth.tar --threads 0 --num_gpus 1
-
-python tracking/analysis_otetrack.py otetrack otetrack_256_full --dataset lasot_extension_subset 
+python tracking/test.py fwtrack fwtrack_256_full --dataset lasot_extension_subset --test_checkpoint ./test_checkpoint/FWTrack_best.pth.tar --threads 0 --num_gpus 1
 ```
 
 - UAV123
 ```
-python tracking/test.py otetrack otetrack_256_full --dataset uav --test_checkpoint ./test_checkpoint/OTETrack_all.pth.tar --threads 0 --num_gpus 1
+python tracking/test.py fwtrack fwtrack_256_full --dataset uav --test_checkpoint ./test_checkpoint/FWTrack_best.pth.tar --threads 0 --num_gpus 1
+```
 
-python tracking/analysis_otetrack.py otetrack otetrack_256_full --dataset uav
+- NFS
+```
+python tracking/test.py fwtrack fwtrack_256_full --dataset nfs --test_checkpoint ./test_checkpoint/FWTrack_best.pth.tar --threads 0 --num_gpus 1
+```
+
+- TNL2K
+```
+python tracking/test.py fwtrack fwtrack_256_full --dataset tnl2k --test_checkpoint ./test_checkpoint/FWTrack_best.pth.tar --threads 0 --num_gpus 1
 ```
 
 ## Others
