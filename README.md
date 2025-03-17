@@ -73,66 +73,10 @@ Partial paramount site-packages requirements are listed below:
 - `yaml == 0.2.5`
 - `opencv-python == 4.5.5.64`
 - `pywavelets == 1.3.0`
-## Data
-GOT-10k dataset can be acquired at: [GOT-10k](http://got-10k.aitestunion.com/downloads).
-LaSOT dataset can be acquired at: [LaSOT](https://onedrive.live.com/?authkey=%21AMZfYsa%2DWN%5Fd6lg&id=83EEFE32EECC7F4B%2133324&cid=83EEFE32EECC7F4B&parId=root&parQt=sharedby&o=OneUp).
-TrackingNet dataset can be acquired at: [TrackingNet](https://drive.google.com/drive/u/0/folders/1gJOR-r-jPFFFCzKKlMOW80WFtuaMiaf6).
-LaSOTEXT dataset can be acquired at: [LaSOTEXT](https://onedrive.live.com/?authkey=%21AL6OYePAAteZeuw&id=83EEFE32EECC7F4B%2133323&cid=83EEFE32EECC7F4B&parId=root&parQt=sharedby&o=OneUp).
-UAV123 dataset can be acquired at: [UAV123](https://drive.google.com/file/d/0B6sQMCU1i4NbNGxWQzRVak5yLWs/view?resourcekey=0-IjwQcWEzP2x3ec8kXtLBpA).
-NFS dataset can be acquired at: [NFS](https://ci2cv.net/nfs/index.html).
-TNL2K dataset can be acquired at: [TNL2K](https://sites.google.com/view/langtrackbenchmark).
-## Data Preparation
 
-After you acquire and unzip the raw data of all datasets, please separately place them in corresponding folders, e.g., putting the train split of LaSOT under `${LASOT_TRAIN_PATH}`. Note that if you obtain the 120FPS version of the NFS dataset, you can run the `./lib/test/evaluation/process_nfs.py` to proprocess the raw data (the file tree is listed below), then the 30FPS version of the NFS dataset is generated for evaluation.
-
-The file tree shall look like this:
-```
-    #Training Split:
-    -- ${LASOT_TRAIN_PATH}
-        |-- airplane
-        |-- basketball
-        |-- bear
-        ...
-    -- ${GOT10K_TRAIN_PATH}
-        |-- train
-    -- ${COCO_TRAIN_PATH}
-        |-- annotations
-        |-- images
-    -- ${TRACKINGNET_TRAIN_PATH}
-        |-- TRAIN_0
-        |-- TRAIN_1
-        ...
-        |-- TRAIN_11
-```
-```
-    #Testing Split:
-    -- ${LASOT_TEST_PATH}
-        |-- airplane-1
-        |-- airplane-9
-        |-- airplane-13
-        ...
-    -- ${GOT10K_TEST_PATH}
-        |-- test
-    -- ${TRACKINGNET_TEST_PATH}
-        |-- TEST
-    -- ${LASOTEXT_PATH}
-        |-- atv
-        |-- badminton
-        |-- cosplay
-        ...
-    -- ${UAV_PATH}
-        |-- anno
-        |-- data_seq
-    -- ${NFS_PATH}
-        |-- airboard_1
-        |-- data_seq
-    -- ${TNL2K_PATH}
-        |-- anno
-        |-- data_seq
-```
 ## Set project paths and dataset paths
 
-After you finish the data preparation, you are advised to modify project paths and dataset paths by editing these two files.
+Before you start the data preparation, you are advised to modify project paths and dataset paths by editing these two files.
 ```
 lib/train/admin/local.py  # paths about training
 lib/test/evaluation/local.py  # paths about testing
@@ -174,6 +118,8 @@ def local_env_settings():
     settings.lasot_path = ${LASOT_TEST_PATH}
     settings.trackingnet_path = ${TRACKINGNET_TEST_PATH}
     settings.uav_path = ${UAV_PATH}
+    settings.tnl2k_path = ${NFS_PATH}
+    settings.nfs_path = ${TNL2K_PATH}
     settings.network_path = os.path.join(project_path,'output/test/networks' )   # Where tracking networks are stored.
     
     # save path
@@ -181,10 +127,73 @@ def local_env_settings():
     settings.result_plot_path = os.path.join(project_path,'output/test/result_plots') 
     settings.results_path = os.path.join(project_path,'output/test/tracking_results') 
     settings.save_dir = os.path.join(project_path,'output')  
-    settings.segmentation_path = os.path.join(project_path,'output/test/segmentation_results' )
     
     return settings
 ```
+## Data
+You can acquire the raw data of all datasets from the links listed below:
+GOT-10k dataset can be acquired at: [GOT-10k](http://got-10k.aitestunion.com/downloads).
+LaSOT dataset can be acquired at: [LaSOT](https://onedrive.live.com/?authkey=%21AMZfYsa%2DWN%5Fd6lg&id=83EEFE32EECC7F4B%2133324&cid=83EEFE32EECC7F4B&parId=root&parQt=sharedby&o=OneUp).
+TrackingNet dataset can be acquired at: [TrackingNet](https://drive.google.com/drive/u/0/folders/1gJOR-r-jPFFFCzKKlMOW80WFtuaMiaf6).
+LaSOTEXT dataset can be acquired at: [LaSOTEXT](https://onedrive.live.com/?authkey=%21AL6OYePAAteZeuw&id=83EEFE32EECC7F4B%2133323&cid=83EEFE32EECC7F4B&parId=root&parQt=sharedby&o=OneUp).
+UAV123 dataset can be acquired at: [UAV123](https://drive.google.com/file/d/0B6sQMCU1i4NbNGxWQzRVak5yLWs/view?resourcekey=0-IjwQcWEzP2x3ec8kXtLBpA).
+NFS dataset can be acquired at: [NFS](https://ci2cv.net/nfs/index.html).
+TNL2K dataset can be acquired at: [TNL2K](https://sites.google.com/view/langtrackbenchmark).
+
+## Data Preparation
+After you acquire and unzip the raw data of all datasets, please separately place them in corresponding folders, e.g., putting the train split of LaSOT under `${LASOT_TRAIN_PATH}`. Note that the annotations of the 30FPS version in the NFS dataset can be obtained by running `./lib/test/evaluation/process_nfs.py`, then you can find the preprocessed annotations in `${NFS_PATH}/NAME/NAME/30/NAME_sampled.txt`.
+
+The file tree shall look like this:
+```
+    #Training Split:
+    -- ${LASOT_TRAIN_PATH}
+        |-- airplane
+        |-- basketball
+        |-- bear
+        ...
+    -- ${GOT10K_TRAIN_PATH}
+        |-- train
+    -- ${COCO_TRAIN_PATH}
+        |-- annotations
+        |-- images
+    -- ${TRACKINGNET_TRAIN_PATH}
+        |-- TRAIN_0
+        |-- TRAIN_1
+        ...
+        |-- TRAIN_11
+```
+```
+    #Testing Split:
+    -- ${LASOT_TEST_PATH}
+        |-- airplane-1
+        |-- airplane-9
+        |-- airplane-13
+        ...
+    -- ${GOT10K_TEST_PATH}
+        |-- test
+    -- ${TRACKINGNET_TEST_PATH}
+        |-- TEST
+    -- ${LASOTEXT_PATH}
+        |-- atv
+        |-- badminton
+        |-- cosplay
+        ...
+    -- ${UAV_PATH}
+        |-- anno
+        |-- data_seq
+    -- ${NFS_PATH}
+        |-- airboard_1
+        |-- |-- airboard_1
+        |-- |-- |-- 240
+        |-- |-- |-- 30
+        |-- |-- |-- |-- airboard_1
+        |-- |-- |-- |-- airboard_1_sampled.txt
+        ...
+    -- ${TNL2K_PATH}
+        |-- advSamp_Baseball_game_002-Done
+        ...
+```
+
 
 ## Create two folders to store weights
 You should create two folders to store the weights for training or testing. We supply the command below to complete it:
